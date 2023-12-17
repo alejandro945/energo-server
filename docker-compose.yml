@@ -74,5 +74,6 @@ volumes:
 networks:
   rmoff_kafka:
     name: rmoff_kafka
+  
 # docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --replication-factor 1 --partitions 2 --create --topic topic-test-1
 # docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --delete --topic topic-test-1
