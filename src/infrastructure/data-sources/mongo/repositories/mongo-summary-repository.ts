@@ -26,11 +26,48 @@ export class MongoSummaryRepository extends MongoGenericRepository<Site> impleme
                 },
             },
             {
+                $unwind: { path: '$alerts', preserveNullAndEmptyArrays: true }
+            },
+            {
                 $group: {
-                    _id: '$alerts.severity',
-                    count: { $sum: 1 },
-                    details: { $push: '$alerts' },
-                },
+                    _id: '$_id',
+                    name: { $first: '$name' },
+                    savings: { $first: '$savings' },
+                    uptime: { $first: '$uptime' },
+                    power: { $first: '$power' },
+                    high: {
+                        $sum: { $cond: [{ $eq: ['$alerts.severity', 'HIGH'] }, 1, 0] }
+                    },
+                    highDetails: {
+                        $push: { $cond: [{ $eq: ['$alerts.severity', 'HIGH'] }, '$alerts', null] }
+                    },
+                    med: {
+                        $sum: { $cond: [{ $eq: ['$alerts.severity', 'MEDIUM'] }, 1, 0] }
+                    },
+                    medDetails: {
+                        $push: { $cond: [{ $eq: ['$alerts.severity', 'MEDIUM'] }, '$alerts', null] }
+                    },
+                    low: {
+                        $sum: { $cond: [{ $eq: ['$alerts.severity', 'LOW'] }, 1, 0] }
+                    },
+                    lowDetails: {
+                        $push: { $cond: [{ $eq: ['$alerts.severity', 'LOW'] }, '$alerts', null] }
+                    },
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,
+                    savings: 1,
+                    uptime: 1,
+                    power: 1,
+                    alerts: {
+                        high: { count: '$high', details: { $filter: { input: '$highDetails', as: 'detail', cond: { $ne: ['$$detail', null] } } } },
+                        med: { count: '$med', details: { $filter: { input: '$medDetails', as: 'detail', cond: { $ne: ['$$detail', null] } } } },
+                        low: { count: '$low', details: { $filter: { input: '$lowDetails', as: 'detail', cond: { $ne: ['$$detail', null] } } } }
+                    }
+                }
             }
         ]).exec();
     };
