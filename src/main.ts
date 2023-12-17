@@ -5,6 +5,9 @@ import server from "./server"
 import dotenv from 'dotenv';
 import AlertRouter from "./presentation/routers/alert-router";
 import { KafkaGenericRepository } from "./infrastructure/brokers/kafka";
+import { json } from "body-parser";
+import { errorHandler } from "./presentation/middleware/error-middleware";
+import "express-async-errors"; 
 
 // Environment variables Config
 dotenv.config();
@@ -22,7 +25,9 @@ async function getMongoDS() {
     const mongoDataSource = new MongoDataSource()
     const sitesMiddleWare = SitesRouter(mongoDataSource.sites)
     const alertsMiddleWare = AlertRouter(new KafkaGenericRepository(), mongoDataSource.alerts)
+    server.use(json())
     server.use("/site", sitesMiddleWare)
     server.use("/alert", alertsMiddleWare)
+    server.use(errorHandler);
     server.listen(process.env.PORT, () => console.log(`Running on http://localhost:${process.env.PORT}`))
 })()

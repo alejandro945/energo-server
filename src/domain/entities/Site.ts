@@ -1,6 +1,4 @@
-import { Base } from "./Base";
-
-export interface Site extends Base {
+export interface Site {
     name: string;
     savings: string; 
     uptime: string;

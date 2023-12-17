@@ -1,5 +1,5 @@
 import { Site } from '@/domain/entities/Site';
-import mongoose, { Document } from 'mongoose';
+import mongoose from 'mongoose';
 
 // Define a schema
 const SiteSchema = new mongoose.Schema({

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
-import { ClassConstructor, classToPlain, instanceToPlain, plainToInstance } from 'class-transformer';
+import { ClassConstructor, instanceToPlain, plainToInstance } from 'class-transformer';
 import { ValidationError, validate } from 'class-validator';
-import { Groups } from '../utils/groups';
 
 export const validationInMiddleware = (validationSchema: ClassConstructor<unknown>, groups: string[] = []) => async (req: Request, _res: Response, next: NextFunction) => {
     req.body = Object.setPrototypeOf(req.body, validationSchema.prototype);
@@ -11,6 +10,7 @@ export const validationInMiddleware = (validationSchema: ClassConstructor<unknow
         forbidNonWhitelisted: true,
     });
     if (errors.length > 0) {
+        console.log(errors);
         throw new ValidationError().children = errors;
     }
     req.body = plainToInstance(validationSchema, req.body, { groups });
@@ -23,5 +23,5 @@ export function validationOutMiddleware<T>(body: T | T[], groups: string[]) {
 				object: "list",
 				data: body.map((item) => instanceToPlain(item, { groups, excludeExtraneousValues: true })),
 		  }
-		: instanceToPlain(body, { groups, excludeExtraneousValues: true });
+		: instanceToPlain(body, { groups });
 }

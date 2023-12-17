@@ -1,12 +1,9 @@
 import { AlertSummary } from '@/domain/entities/Alert';
-import { Exclude, Expose } from 'class-transformer';
+import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { Groups } from '../utils/groups';
 
 export class SiteDTO {
-  @Exclude()
-  id!: string;
-
   @Expose({ groups: Groups.all() })
   @IsString({ groups: [Groups.CREATE, Groups.UPDATE], message: "Name must be a string" })
   @IsOptional({ groups: [Groups.UPDATE] })
@@ -15,22 +12,18 @@ export class SiteDTO {
   name!: string;
 
   @Expose({ groups: Groups.all() })
-  @IsString()
-  @IsOptional()
+  @IsString({ groups: [Groups.CREATE, Groups.UPDATE], message: "Savings must be a string" })
+  @IsOptional({ groups: [Groups.UPDATE] })
   savings!: string;
 
   @Expose({ groups: Groups.all() })
-  @IsString()
-  @IsOptional()
+  @IsString({ groups: [Groups.CREATE, Groups.UPDATE], message: "Uptime must be a string"})
+  @IsOptional({ groups: [Groups.UPDATE]})
   uptime!: string;
 
   @Expose({ groups: Groups.all() })
-  @IsString()
-  @IsOptional()
+  @IsString({ groups: [Groups.CREATE, Groups.UPDATE], message: "Power must be a string"})
+  @IsOptional({ groups: [Groups.UPDATE]})
   power!: string;
-
-  @Expose({ groups: Groups.all() })
-  @IsOptional()
-  alerts!: AlertSummary;
 
 }

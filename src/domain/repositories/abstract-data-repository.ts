@@ -1,8 +1,7 @@
 import { Alert } from "../entities/Alert";
-import { Site } from "../entities/Site";
-import { ICommonUseCases } from "../use-cases/common";
+import { ICommonUseCases, ISitesUseCases } from "../use-cases/common";
 
 export abstract class IDataServices {
-    abstract sites: ICommonUseCases<Site>;
+    abstract sites: ISitesUseCases;
     abstract alerts: ICommonUseCases<Alert>;
 }

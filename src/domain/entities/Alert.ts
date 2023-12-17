@@ -1,6 +1,5 @@
-import { Base } from "./Base";
 
-export interface Alert extends Base {
+export interface Alert {
     site?: string;
     severity: AlertSeverity;
     metric: string; //Could be an instace of Metric
