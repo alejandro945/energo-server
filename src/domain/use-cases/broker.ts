@@ -1,3 +1,3 @@
-export interface IBrokerUseCases<T> {
-    send: (topic: string, message: T) => Promise<void>;
+export interface IBrokerUseCases {
+    send: (topic: string, message: any) => Promise<void>;
 }
