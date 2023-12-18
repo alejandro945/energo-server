@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "e314d1b4-fdaf-4df5-9b61-c7fb6dc6fd1a",
+		"name": "Energo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "14327953",
+		"_collection_link": "https://martian-meadow-576512.postman.co/workspace/My-Workspace~5a56d89b-518e-4242-8208-e6b5470b4f88/collection/14327953-e314d1b4-fdaf-4df5-9b61-c7fb6dc6fd1a?action=share&source=collection_link&creator=14327953"
+	},
+	"item": [
+		{
+			"name": "Create Alert",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"site\": \"657f1fd898fffe8eaf5ebf1e\",\n    \"severity\": \"LOW\",\n    \"metric\": \"Exhaust Volume\",\n    \"unit\": \"cuft\",\n    \"time\": \"11/16/2022 01:33am\",\n    \"threshold\": 55,\n    \"value\": 78\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://energo-server.onrender.com/alert/send"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Site",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Biobot\",\n    \"savings\": \"76%\",\n    \"uptime\": \"423h\",\n    \"power\": \"1530kW\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://energo-server.onrender.com/site/"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sites",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://energo-server.onrender.com/site/"
+			},
+			"response": []
+		}
+	]
+}

@@ -7,7 +7,8 @@ import AlertRouter from "./presentation/routers/alert-router";
 import { KafkaGenericRepository } from "./infrastructure/brokers/kafka";
 import { json } from "body-parser";
 import { errorHandler } from "./presentation/middleware/error-middleware";
-import "express-async-errors"; 
+import "express-async-errors";
+import cors from "cors";
 
 // Environment variables Config
 dotenv.config();
@@ -25,6 +26,7 @@ async function getMongoDS() {
     const mongoDataSource = new MongoDataSource()
     const sitesMiddleWare = SitesRouter(mongoDataSource.sites)
     const alertsMiddleWare = AlertRouter(new KafkaGenericRepository(), mongoDataSource.alerts)
+    server.use(cors())
     server.use(json())
     server.use("/site", sitesMiddleWare)
     server.use("/alert", alertsMiddleWare)
