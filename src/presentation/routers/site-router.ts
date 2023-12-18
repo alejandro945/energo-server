@@ -1,5 +1,4 @@
-import { Site } from '@/domain/entities/Site'
-import { ICommonUseCases, ISitesUseCases } from '@/domain/use-cases/common'
+import { ISitesUseCases } from '@/domain/use-cases/common'
 import express from 'express'
 import { Request, Response } from 'express'
 import { SiteDTO } from '../dto/site-dto'
@@ -14,8 +13,13 @@ import { Groups } from '../utils/groups'
 export default function SiteRouter(commonUseCases: ISitesUseCases) {
     const router = express.Router()
 
-    router.get('/', async (_: Request, res: Response) => {
+    router.get('/summary', async (_: Request, res: Response) => {
         const sites = await commonUseCases.getSummary()
+        res.status(200).send(sites)
+    })
+
+    router.get('/', async (_: Request, res: Response) => {
+        const sites = await commonUseCases.getAll()
         res.status(200).send(sites)
     })
 
